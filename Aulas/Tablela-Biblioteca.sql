@@ -32,3 +32,16 @@ CREATE TABLE Livro(
 	---- Estado pode ser: requesitado('1') ou não requesitado('0')
 	PRIMARY KEY(Numero_Livro)
 	)
+
+CREATE TABLE Emprestimo(
+	Numero_mecanografico Integer		NOT NULL,
+	Numero_Livro		 Integer	NOT NULL,
+	Data_Requesicao   SMALLDATETIME NOT NULL DEFAULT GETDATE(),
+	Data_Entrega      SMALLDATETIME,
+	CHECK (Data_Entrega> Data_Requesicao),
+	PRIMARY KEY (Numero_mecanografico, Numero_Livro, Data_requesicao),
+	FOREIGN KEY (Numero_mecanografico) REFERENCES Aluno(Numero_mecanografico),
+	FOREIGN KEY (Numero_Livro) REFERENCES Livro(Numero_Livro),
+
+)
+GO
