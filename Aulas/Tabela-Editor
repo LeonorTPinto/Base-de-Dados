@@ -1,0 +1,39 @@
+--Exer 3-- EDITORA
+
+USE master 
+GO
+
+CREATE DATABASE Editora
+GO
+
+USE Editora
+GO
+
+CREATE TABLE Livro(
+	ISBN INTEGER NOT NULL, 
+	Titulo VARCHAR(50)NOT NULL,
+	Edicao_numero INTEGER NOT NULL,
+	Edicao_data SMALLDATETIME NOT NULL DEFAULT	GETDATE(),
+	Edicao_exemplares INTEGER NOT NULL,
+	preco_venda MONEY NOT NULL DEFAULT 0,
+	CHECK (Edicao_numero>0),
+	CHECK (Edicao_exemplares>0),
+	CHECK(preco_venda>=0),
+	PRIMARY KEY (ISBN)
+	)
+
+CREATE TABLE Livreiro(
+	cod_livreiro INTEGER NOT NULL IDENTITY(1,1),
+	nome VARCHAR(50) NOT NULL,
+	endereco VARCHAR(50) NOT NULL,
+	PRIMARY KEY (cod_livreiro)
+)
+
+CREATE TABLE Autor(
+	cod_autor INTEGER NOT NULL IDENTITY(1,1),
+	nome VARCHAR(50) NOT NULL,
+	apelido VARCHAR(50) NOT NULL,
+	pseudonimo VARCHAR(50),
+	PRIMARY KEY (cod_autor)
+
+)
