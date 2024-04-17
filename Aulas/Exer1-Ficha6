@@ -11,7 +11,7 @@ SELECT *
 FROM Aluno
 
 INSERT INTO Livro (Titulo, Autor, Editor, Data_compra, Estado)
-VALUES ('SQL- STRUCTURED Query Language', 'Luís Damas', 'FCA-Editora Informática', '01 Feb 2018', 0)
+VALUES ('SQL- STRUCTURED Query Language', 'Luís Damas', 'FCA-Editora Informática', '01 Feb 2018', 1)
 
 SELECT *
 FROM Livro
@@ -21,8 +21,37 @@ VALUES (5957,1,'02 Feb 2018', NULL)
 
 SELECT * FROM Emprestimo 
 
+---ATUALIZAR DADOS(b)
 
+USE Biblioteca
+GO
+--  1 emprestado---
+---0 n emprestado---
 
+UPDATE Livro
+SET Estado =1 -- Está emprestado ---
+WHERE Numero_Livro=1
 
+--- ENTREGA DO LIVRO----
+UPDATE Emprestimo
+SET Data_Entrega= GETDATE()
+WHERE Numero_mecanografico=5957 AND Numero_Livro=1 AND Data_Requesicao='02 Feb 2018'
 
+UPDATE Livro
+SET Estado=0
+WHERE Numero_Livro=1
+
+SELECT *FROM Aluno
+SELECT *FROM Livro
+SELECT *FROM Emprestimo
+ 
+ ---REMOÇAO DADOS
+ DELETE FROM Emprestimo
+ WHERE Numero_mecanografico=5957 AND Numero_Livro=1 AND Data_Requesicao='02 Feb 2018'
+
+ DELETE FROM ALUNO
+ WHERE Numero_mecanografico=5957
+
+ DELETE FROM Livro
+ WHERE Numero_Livro=1;
 
