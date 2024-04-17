@@ -17,7 +17,7 @@ CREATE TABLE Aluno(
 	End_Localidade		   VARCHAR (50)	 NOT NULL,
 	Garantia		   MONEY	 NOT NULL DEFAULT 0,
 	CHECK (Numero_mecanografico>0),
-	CHECK (End_codigoPostal LIKE '[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9][0-9]'),
+	CHECK (End_codigoPostal LIKE '[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9]'),
 	CHECK (Garantia >=0),
 	PRIMARY KEY (Numero_mecanografico)
 	)
