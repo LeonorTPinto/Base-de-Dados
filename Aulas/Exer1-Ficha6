@@ -1,2 +1,11 @@
--- Ficha 6---- Exer1 -Biblioteca
----Insercao de Dados (a)
+--Ficha6---Exer 1 Biblioteca
+-- Insercao Dados(a)
+
+use Biblioteca
+GO
+
+INSERT INTO Aluno (Numero_Mecanografico,Nome, End_Morada, End_codigoPostal, End_Localidade,Garantia)
+Values (5757, 'Manuel Silva', 'Rua Nova de Baixo, nº1','Vila Real','5000-408',5)
+
+SELECT*
+FROM Aluno
