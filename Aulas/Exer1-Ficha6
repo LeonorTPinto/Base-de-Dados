@@ -1,11 +1,28 @@
 --Ficha6---Exer 1 Biblioteca
 -- Insercao Dados(a)
 
-use Biblioteca
+USE Biblioteca
 GO
 
-INSERT INTO Aluno (Numero_Mecanografico,Nome, End_Morada, End_codigoPostal, End_Localidade,Garantia)
-Values (5757, 'Manuel Silva', 'Rua Nova de Baixo, nº1','Vila Real','5000-408',5)
+INSERT INTO Aluno (Numero_mecanografico,Nome, End_morada, End_Localidade, End_codigoPostal,Garantia)
+Values (5957, 'Manuel Silva', 'Rua Nova de Baixo, nº1','Vila Real','5000-408',5)
 
-SELECT*
+SELECT *
 FROM Aluno
+
+INSERT INTO Livro (Titulo, Autor, Editor, Data_compra, Estado)
+VALUES ('SQL- STRUCTURED Query Language', 'Luís Damas', 'FCA-Editora Informática', '01 Feb 2018', 0)
+
+SELECT *
+FROM Livro
+
+INSERT INTO Emprestimo(Numero_mecanografico, Numero_Livro, Data_Requesicao, Data_Entrega)
+VALUES (5957,1,'02 Feb 2018', NULL)
+
+SELECT * FROM Emprestimo 
+
+
+
+
+
+
