@@ -1,0 +1,131 @@
+-- Ficha Pratica No. 6
+-- Exercicio 1 - BIBLIOTECA
+-- Sugestoes de populacao de dados
+--
+-- SQL para Microsoft SQL Server
+-- -------------------------------------------------------------------------
+-- Paulo Martins (pmartins@utad.pt) & Daniel Alexandre (daniel@utad.pt)
+-- -------------------------------------------------------------------------
+
+USE Biblioteca
+GO
+
+INSERT INTO Aluno(Numero_Mecanografico, Nome, End_Morada, End_Localidade, End_codigoPostal, Garantia)
+VALUES
+(10000, 'João Gomes Silva', 'Rua da esquerda nº 5', 'Vila Real', '5000-001', 10.00),
+(10001, 'Andrioleta Joaquina', 'Rua da esquerda nº 6', 'Vila Real', '5000-001', 10.00),
+(10002, 'Mário Rua Santos', 'Rua do Mário', 'Vila Real', '5000-001', 5.00),
+(10003, 'Maria de Jesus Pereira', 'Rua da Bila', 'Vila Real', '5000-101', 5.00),
+(10004, 'Hugo Carvalho', 'Rua dos Ferreiros nº 3', 'Vila Real', '5000-201', 15.00),
+(10005, 'João Castro', 'Praceta do Castro', 'Chaves', '6001-123', 0),
+(10006, 'Maria João Silva', 'Rua do Maria', 'VNG', '4300-321', 5.00),
+(10007, 'Pedro Aguiar', 'Av do Testamento Novo', 'Vila Real', '5000-801', 25.00),
+(10008, 'João Pedro', 'Travessa do Pedro', 'VNG', '4400-001', 5.00),
+(10009, 'Carla Pinto', 'Praceta do Castro nº 9', 'Porto', '5000-071', 5.00),
+(16954, 'Carolina Brasil', 'Rua Infante D. Henriques', 'Vila Real', '5000-701', 20.00);
+
+/*--------------------------------------------------------*/
+
+INSERT INTO Livro (Titulo, Autor, Editor, Data_Compra, Estado)
+VALUES
+('Bases de Dados Para Totos', 'Manuel António', 'Editora Perfeita','2010/1/21' ,0),
+('Engenharia de Sistemas', 'Manuel António', 'Editora Perfeita', GetDate(), 0),
+('Bases de Dados', 'Manuel António', 'Editora Perfeita','2010/1/21' ,0),
+('Introdução às Bases de Dados', 'Joana Dias', 'SQL Editora','2012/3/14' ,0),
+('Bases de Dados de Covid´s', 'Manuel António', 'Plebeus Editora','2012/3/16' ,0),
+('Respostas para tudo', 'David Fonseca', 'Ediçoes ASA','2017/6/13' ,0),
+('Uma boa história', 'Joana Dias', 'Editora dos Contos','2012/6/24' ,0),
+('Pura Ignorância', 'Desconhecido', 'Plebeus Editora','2009/12/31' ,0)
+
+/*--------------------------------------------------------*/
+
+INSERT INTO Emprestimo VALUES (16954, 3 , '2004/4/21', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 3
+
+INSERT INTO Emprestimo VALUES (16954, 8 , '2004/4/21', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 8
+
+INSERT INTO Emprestimo VALUES (16954, 1 , '2004/4/25', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 1
+
+UPDATE Emprestimo
+SET data_entrega = '2004/04/27'
+WHERE Numero_Mecanografico = 16954 AND Numero_Livro = 1 AND Data_Requesicao = '2004/4/25'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 1
+
+INSERT INTO Emprestimo VALUES (10005, 5 , '2004/4/26', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 5
+
+UPDATE Emprestimo
+SET data_entrega = '2004/04/27'
+WHERE Numero_Mecanografico = 16954 AND Numero_Livro = 8 AND Data_Requesicao = '2004/4/21'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 8
+
+UPDATE Emprestimo
+SET data_entrega = '2004/04/27'
+WHERE Numero_Mecanografico = 16954 AND Numero_Livro = 3 AND Data_Requesicao = '2004/4/21'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 3
+
+UPDATE Emprestimo
+SET data_entrega = '2004/04/27'
+WHERE Numero_Mecanografico = 10005 AND Numero_Livro = 5 AND Data_Requesicao = '2004/4/26'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 5
+
+INSERT INTO Emprestimo VALUES (10005, 5 , '2006/2/12', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 5
+
+UPDATE Emprestimo
+SET data_entrega = '2006/02/27'
+WHERE Numero_Mecanografico = 10005 AND Numero_Livro = 5 AND Data_Requesicao = '2006/2/12'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 5
+
+INSERT INTO Emprestimo VALUES (10006, 7 , '2014/9/12', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 7
+
+INSERT INTO Emprestimo VALUES (10006, 4 , '2014/9/16', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 4
+
+UPDATE Emprestimo
+SET data_entrega = '2014/9/18'
+WHERE Numero_Mecanografico = 10006 AND Numero_Livro = 7 AND Data_Requesicao = '2014/9/12'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 7
+
+UPDATE Emprestimo
+SET data_entrega = '2014/9/18'
+WHERE Numero_Mecanografico = 10006 AND Numero_Livro = 4 AND Data_Requesicao = '2014/9/16'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 4
+
+INSERT INTO Emprestimo VALUES (16954, 2 , '2016/2/12', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 2
+
+UPDATE Emprestimo
+SET data_entrega = '2016/2/17'
+WHERE Numero_Mecanografico = 16954 AND Numero_Livro = 2 AND Data_Requesicao = '2016/2/12'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 2
+
+INSERT INTO Emprestimo VALUES (16954, 2 , '2016/2/19', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 2
+
+UPDATE Emprestimo
+SET data_entrega = '2016/2/27'
+WHERE Numero_Mecanografico = 16954 AND Numero_Livro = 2 AND Data_Requesicao = '2016/2/19'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 2
+
+INSERT INTO Emprestimo VALUES (10000, 3 , '2016/9/12', NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 3
+
+UPDATE Emprestimo
+SET data_entrega = '2016/9/20'
+WHERE Numero_Mecanografico = 10000 AND Numero_Livro = 3 AND Data_Requesicao = '2016/9/12'
+UPDATE Livro	SET	estado = 0	WHERE Numero_Livro = 3
+
+INSERT INTO Emprestimo VALUES (10007, 7 , '2020/1/8' , NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 7
+
+INSERT INTO Emprestimo VALUES (10007, 6 , '2020/4/9' , NULL)
+UPDATE Livro	SET	estado = 1	WHERE Numero_Livro = 6
+
+
+ SELECT *FROM Aluno
+ SELECT *FROM Livro
+ SELECT *FROM Emprestimo
