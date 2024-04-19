@@ -1,0 +1,33 @@
+CREATE DATABASE Pessoas
+GO
+
+CREATE TABLE pessoas(
+		CC INTEGER NOT NULL,
+		Nome_Pessoas VARCHAR (50) NOT NULL,
+		Data_Nasc DATE,
+		Telefone VARCHAR(9) NOT NULL,
+		End_Morada VARCHAR (100) NOT NULL,
+		End_Localidade VARCHAR(100) NOT NULL,
+		End_CodigoPostal CHAR(8) NOT NULL,
+		CHECK (End_codigoPostal LIKE '[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9]'),
+		PRIMARY KEY (CC)
+		)
+
+CREATE TABLE tipo_fabricacao(
+		ID_fabricacao  INTEGER NOT NULL,
+		Nome_Fabricacao VARCHAR(50) NOT NULL,
+		descricao VARCHAR(50) NOT NULL
+		PRIMARY KEY (ID_fabricacao) 
+)
+
+CREATE TABLE Viver(
+	  CC INTEGER NOT NULL,
+	  ID_Paises INTEGER NOT NULL,
+	  Data_Inicio DATE,
+	  Data_Fim DATE,
+
+	  FOREIGN KEY (CC) REFERENCES Pessoas(CC),
+	  FOREIGN KEY (ID_Paises) REFERENCES Paises(ID_Paises)
+
+
+)
