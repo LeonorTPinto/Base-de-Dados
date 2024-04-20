@@ -79,7 +79,7 @@ CREATE TABLE Editoras (
     Nome_Editoras VARCHAR(255),
     Cidade VARCHAR(255),
     Total_Vendas DECIMAL(10, 2)
-);
+)
 
 
 CREATE TABLE Vender(
@@ -132,4 +132,4 @@ CREATE TABLE Formadores (
     Nivel VARCHAR(50),
 	PRIMARY KEY(CC) ,
 	FOREIGN KEY (CC) REFERENCES Pessoas,
-);
+)
