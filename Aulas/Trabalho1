@@ -1,7 +1,7 @@
 CREATE DATABASE Pessoas
 GO
 
-CREATE TABLE pessoas(
+CREATE TABLE Pessoas(
 		CC INTEGER NOT NULL,
 		Nome_Pessoas VARCHAR (50) NOT NULL,
 		Data_Nasc DATE,
@@ -20,14 +20,111 @@ CREATE TABLE tipo_fabricacao(
 		PRIMARY KEY (ID_fabricacao) 
 )
 
+CREATE TABLE Paises(
+	ID_Paises INTEGER NOT NULL,
+	Nome_Paises VARCHAR(50),
+	Criador BIT NOT NULL DEFAULT 0,
+	---- Criador pode ser: Criador('1') ou não criador('0')
+	PRIMARY KEY (ID_Paises)
+)
+
 CREATE TABLE Viver(
 	  CC INTEGER NOT NULL,
 	  ID_Paises INTEGER NOT NULL,
 	  Data_Inicio DATE,
 	  Data_Fim DATE,
-
+	  PRIMARY KEY (CC),
 	  FOREIGN KEY (CC) REFERENCES Pessoas(CC),
 	  FOREIGN KEY (ID_Paises) REFERENCES Paises(ID_Paises)
 
-
 )
+
+CREATE TABLE ManuaisEscolares(
+    ISBN            BIGINT            NOT NULL,
+    Titulo            VARCHAR(50)        NOT NULL,
+    AnoEscolar        Integer            NOT NULL,
+    CHECK(AnoEscolar>1),
+    PRIMARY KEY (ISBN),
+)
+
+CREATE TABLE Edicao(
+    ISBN            BIGINT            NOT NULL,
+    ID_Edicao        Integer            NOT NULL,
+    Erratas            Integer            NOT NULL,
+    CHECK(ID_Edicao>0),
+    CHECK(Erratas>0),
+    PRIMARY KEY (ISBN, ID_Edicao),
+    FOREIGN KEY (ISBN) REFERENCES ManuaisEscolares,
+)
+
+
+CREATE TABLE Classificar(
+	 ISBN BIGINT  NOT NULL,
+	 CC   INTEGER NOT NULL,
+	 ID_fabricacao  INTEGER NOT NULL,
+	 PRIMARY KEY (ISBN,ID_fabricacao,CC),
+	 FOREIGN KEY (ISBN) REFERENCES ManuaisEscolares,
+	 FOREIGN KEY (CC) REFERENCES Pessoas,
+	 FOREIGN KEY (ID_fabricacao) REFERENCES tipo_fabricacao,
+
+) 
+
+CREATE TABLE Editoras (
+    ID_Editoras  INT PRIMARY KEY,
+    Nome_Editoras VARCHAR(255),
+    Cidade VARCHAR(255),
+    Total_Vendas DECIMAL(10, 2)
+);
+
+
+CREATE TABLE Vender(
+    ID_Paises            Integer            NOT NULL    IDENTITY(1,1),
+    ID_Editoras            Integer            NOT NULL,
+    Data_Vendas					DATE,
+    Quantidade            Integer            NOT NULL,
+    Preco_Unitario        FLOAT            NOT NULL,
+    CHECK(Preco_Unitario>0),
+    PRIMARY KEY(ID_Paises,ID_Editoras),
+    FOREIGN KEY(ID_Paises) REFERENCES Paises,
+    FOREIGN KEY(ID_Editoras) REFERENCES Editoras,
+)
+
+CREATE TABLE Formandos(
+    CC              INTEGER            NOT NULL,
+    formacao        VARCHAR(50)        NOT NULL,
+    idade            Integer            NOT NULL,
+    CHECK(idade>0),
+    PRIMARY KEY(CC),
+    FOREIGN KEY(CC) REFERENCES Pessoas,
+)
+
+CREATE TABLE Formacao(
+    Data_formacao        DATE,
+    ISBN                BIGINT        NOT NULL,
+    CC                   INTEGER       NOT NULL,
+    preco                FLOAT        NOT NULL,
+    CHECK(preco>0),
+    PRIMARY KEY(ISBN, CC, Data_formacao),
+    FOREIGN KEY(ISBN) REFERENCES ManuaisEscolares,
+    FOREIGN KEY(CC) REFERENCES Pessoas,
+)
+
+CREATE TABLE Produzir(
+    Data_Producao        DATE,
+    ISBN                BIGINT            NOT NULL,
+    ID_Editoras            Integer            NOT NULL,
+    Custo_Unitario        FLOAT            NOT NULL,
+    Quantidade            Integer            NOT NULL,
+    CHECK(Custo_Unitario>0),
+    CHECK(Quantidade>0),
+    PRIMARY KEY (Data_Producao, ISBN, ID_Editoras),
+    FOREIGN KEY (ISBN) REFERENCES ManuaisEscolares,
+    FOREIGN KEY (ID_Editoras) REFERENCES Editoras,
+)
+CREATE TABLE Formadores (
+
+	CC INTEGER       NOT NULL,
+    Nivel VARCHAR(50),
+	PRIMARY KEY(CC) ,
+	FOREIGN KEY (CC) REFERENCES Pessoas,
+);
