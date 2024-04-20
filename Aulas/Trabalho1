@@ -1,3 +1,11 @@
+
+USE master
+GO
+
+CREATE DATABASE Pessoas
+GO -- como se fosse um enter
+
+
 CREATE DATABASE Pessoas
 GO
 
