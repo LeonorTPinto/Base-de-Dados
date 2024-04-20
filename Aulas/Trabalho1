@@ -86,7 +86,7 @@ CREATE TABLE Editoras (
 CREATE TABLE Vender(
     ID_Paises            Integer            NOT NULL    IDENTITY(1,1),
     ID_Editoras            Integer            NOT NULL,
-    Data_Vendas					DATE,
+    Data_Vendas		DATE,
     Quantidade            Integer            NOT NULL,
     Preco_Unitario        FLOAT            NOT NULL,
     CHECK(Preco_Unitario>0),
