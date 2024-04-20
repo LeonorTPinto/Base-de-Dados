@@ -1,9 +1,10 @@
-
-USE master
+USE MASTER
 GO
 
-
 CREATE DATABASE Pessoas
+GO
+
+USE Pessoas 
 GO
 
 CREATE TABLE Pessoas(
