@@ -1,47 +1,54 @@
---Ficha 5 Exer1:: Biblioteca
+-------FICHA6
 
-USE master
+USE Biblioteca
 GO
 
-CREATE DATABASE Biblioteca
-GO -- como se fosse um enter
+----a
 
-USE Biblioteca 
-GO
--- criação tabela
-CREATE TABLE Aluno(
-	Numero_mecanografico       Integer       NOT NULL,
-	Nome		           VARCHAR(50)	 NOT NULL,
-	End_morada	           VARCHAR(50)	 NOT NULL,
-	End_codigoPostal	   CHAR(8)	 NOT NULL,
-	End_Localidade		   VARCHAR (50)	 NOT NULL,
-	Garantia		   MONEY	 NOT NULL DEFAULT 0,
-	CHECK (Numero_mecanografico>0),
-	CHECK (End_codigoPostal LIKE '[0-9][0-9][0-9][0-9]-[0-9][0-9][0-9]'),
-	CHECK (Garantia >=0),
-	PRIMARY KEY (Numero_mecanografico)
-	)
+SELECT * 
+FROM Aluno
 
-CREATE TABLE Livro( 
-	Numero_Livro  INTEGER       NOT NULL IDENTITY(1,1),
-	Titulo        VARCHAR(50)   NOT NULL,
-	Autor         VARCHAR(50)   NOT NULL,
-	Editor        VARCHAR(50)   NOT NULL,
-	Data_compra   SMALLDATETIME NOT NULL DEFAULT GETDATE(),
-	Estado        BIT           NOT NULL DEFAULT 0,
-	---- Estado pode ser: requesitado('1') ou não requesitado('0')
-	PRIMARY KEY(Numero_Livro)
-	)
+---- ou
+--------SELECT Numero_mecanogarfico , nome
+--------FROM Aluno
 
-CREATE TABLE Emprestimo(
-	Numero_mecanografico Integer		NOT NULL,
-	Numero_Livro		 Integer	NOT NULL,
-	Data_Requesicao   SMALLDATETIME NOT NULL DEFAULT GETDATE(),
-	Data_Entrega      SMALLDATETIME,
-	CHECK (Data_Entrega> Data_Requesicao),
-	PRIMARY KEY (Numero_mecanografico, Numero_Livro, Data_requesicao),
-	FOREIGN KEY (Numero_mecanografico) REFERENCES Aluno(Numero_mecanografico),
-	FOREIGN KEY (Numero_Livro) REFERENCES Livro(Numero_Livro),
+----b--.- Mostrar um nime
+SELECT Numero_mecanografico, Nome
+FROM Aluno
+WHERE Nome LIKE 'João%'
 
-)
-GO
+----C---
+SELECT Numero_mecanografico, Nome, Garantia
+FROM Aluno
+WHERE Garantia >= 10
+
+---
+SELECT*
+FROM Livro
+----ou 
+SELECT Titulo,  Autor, Editor,Estado
+FROM Livro
+
+---EXTRA
+SELECT *
+FROM Emprestimo
+
+----D----
+SELECT Autor, Titulo
+FROM Livro
+WHERE Autor LIKE 'Manuel António'
+
+
+
+----- Qual o estado dos livros que contêm "Bases de Dados" no título?
+
+SELECT Autor, Titulo, Estado
+FROM Livro
+WHERE Titulo LIKE '%Bases de Dados%'
+
+
+---- Qual o valor em caixa da biblioteca fruto das garantias dos alunos?
+
+
+SELECT SUM(Garantia) AS valor_em_caixa
+FROM Aluno
