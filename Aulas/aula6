@@ -12,7 +12,7 @@ FROM Aluno
 --------SELECT Numero_mecanogarfico , nome
 --------FROM Aluno
 
-----b--.- Mostrar um nime
+----b--.- Mostrar um nome
 SELECT Numero_mecanografico, Nome
 FROM Aluno
 WHERE Nome LIKE 'João%'
@@ -37,4 +37,28 @@ FROM Emprestimo
 SELECT Autor, Titulo
 FROM Livro
 WHERE Autor LIKE 'Manuel António'
+
+
+
+----- Qual o estado dos livros que contêm "Bases de Dados" no título?
+
+SELECT Autor, Titulo, Estado
+FROM Livro
+WHERE Titulo LIKE '%Bases de Dados%'
+
+
+---- Qual o valor em caixa da biblioteca fruto das garantias dos alunos?
+
+
+SELECT SUM(Garantia) AS valor_em_caixa
+FROM Aluno
+
+
+--- Quais os livros requisitados pelo aluno "João Pedro"?
+
+SELECT L.Titulo
+FROM Aluno A, Emprestimo E, Livro L
+WHERE A.Numero_mecanografico=E.Numero_mecanografico 
+							AND E.Numero_Livro=L.Numero_Livro
+							AND A.Nome='João Pedro'
 
