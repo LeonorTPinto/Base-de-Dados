@@ -90,9 +90,9 @@ ORDER BY L.isbn, A.nome, A.apelido
 
 --Qual o livro mais encomendado por todos os livreiros?
 
- SELECT 
+ SELECT L.titulo, l.isbn, L.ed_numero, c.quantidade
  FROM Livro L, Comprar C , Livreiro L1
  WHERE L.isbn=c.isbn AND
-		C.cod_livreiro=L1.cod_livreiro 
-
+		C.quantidade=(SELECT MAX(quantidade)
+					FROM Comprar)
 	
