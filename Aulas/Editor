@@ -31,8 +31,24 @@ FROM Livro
  FROM Autor A,Escrever E  
  WHERE A.cod_autor= E.cod_autor  AND A.nome='Manuel' AND A.apelido='António'
 
- --Quais os autores com livros disponíveis no livreiro "O Meu Livreiro"?
+ -- Quais os livros disponíveis no livreiro "O Meu Livreiro"?
 
- SELECT Autor
- FROM Autor , Livreiro
+ SELECT L.isbn, L.titulo, L.ed_numero
+ FROM Livro L, Comprar C , Livreiro L1
+ WHERE L.isbn=c.isbn AND
+		C.cod_livreiro=L1.cod_livreiro AND
+		L1.nome= 'O Meu Livreiro'
+
+--Quais os autores com livros disponíveis no livreiro "O Meu Livreiro"?
+
+SELECT A.nome, A.apelido
+FROM Livro L, Escrever E, Comprar C, Livreiro L1, Autor A
+WHERE A.cod_autor=E.cod_autor AND
+	E.isbn=L.isbn AND
+	L.isbn=C.isbn AND
+	C.cod_livreiro= L1.cod_livreiro AND
+	L1.nome='O Meu Livreiro '
+
+
+	
  
