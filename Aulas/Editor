@@ -1,0 +1,38 @@
+----Ficha 6 Exer2
+
+
+USE Editor
+GO
+
+---Quais os autores registados?
+---Mostra tds os autores
+
+SELECT * 
+FROM Autor
+
+-- Quais os autores que tem pseudónimo?
+
+SELECT *
+FROM Autor 
+WHERE pseudonimo IS NOT NULL
+
+--Quantos livros existem registados?
+
+SELECT count(*) AS num_livros
+FROM Livro
+--- ou
+
+--SELECT count(isbn) as num_livros
+--FROM Livro
+
+ --Quantos livros escreveu o autor "Manuel António"?
+
+ SELECT COUNT(*) AS 'Numero Livros'
+ FROM Autor A,Escrever E  
+ WHERE A.cod_autor= E.cod_autor  AND A.nome='Manuel' AND A.apelido='António'
+
+ --Quais os autores com livros disponíveis no livreiro "O Meu Livreiro"?
+
+ SELECT Autor
+ FROM Autor , Livreiro
+ 
