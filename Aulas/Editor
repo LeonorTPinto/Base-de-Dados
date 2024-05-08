@@ -41,7 +41,7 @@ FROM Livro
 
 --Quais os autores com livros disponíveis no livreiro "O Meu Livreiro"?
 
-SELECT A.nome, A.apelido
+SELECT DISTINCT A.nome, A.apelido
 FROM Livro L, Escrever E, Comprar C, Livreiro L1, Autor A
 WHERE A.cod_autor=E.cod_autor AND
 	E.isbn=L.isbn AND
@@ -51,4 +51,48 @@ WHERE A.cod_autor=E.cod_autor AND
 
 
 	
- 
+--Quanto recebeu o autor "Manuel José" em royalties por todos os livros  escritos?
+
+SELECT Sum(E.royalty) AS soma_royalty
+FROM Autor A, Escrever E
+WHERE A.cod_autor=E.cod_autor AND
+		A.nome='Manuel' AND
+		A.apelido= 'José'
+---h) Em que livreiros existem livros do autor "Manuel António"?
+
+SELECT DISTINCT L1.nome
+FROM Livro L, Comprar C, Livreiro L1, Autor A, Escrever E
+WHERE A.cod_autor=E.cod_autor AND
+	E.isbn=L.isbn AND
+	L.isbn=C.isbn AND
+	C.cod_livreiro= L1.cod_livreiro AND
+	A.nome='Manuel' AND
+	A.apelido='António'
+
+-- Em que livreiros existe o livro com o título "Bases de Dados"?
+
+SELECT DISTINCT L1.nome
+FROM Livro L, Comprar C, Livreiro L1
+WHERE 
+	L.isbn=C.isbn AND
+	C.cod_livreiro= L1.cod_livreiro AND
+	L.titulo= 'Bases de Dados'
+	
+
+--Apresente uma lista de todos os livros com o(s) respetivo(s) autor(es).
+
+
+ SELECT A.nome, L.isbn, L.titulo, L.ed_numero,A.nome, A.apelido
+ FROM Autor A,Escrever E , Livro L 
+ WHERE A.cod_autor= E.cod_autor AND
+		E.isbn = L.isbn 
+ORDER BY L.isbn, A.nome, A.apelido
+
+--Qual o livro mais encomendado por todos os livreiros?
+
+ SELECT 
+ FROM Livro L, Comprar C , Livreiro L1
+ WHERE L.isbn=c.isbn AND
+		C.cod_livreiro=L1.cod_livreiro 
+
+	
