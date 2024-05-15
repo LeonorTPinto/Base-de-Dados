@@ -91,10 +91,14 @@ ORDER BY L.isbn, A.nome, A.apelido
 --Qual o livro mais encomendado por todos os livreiros?
 
  SELECT L.titulo, l.isbn, L.ed_numero, c.quantidade
- FROM Livro L, Comprar C , Livreiro L1
+ FROM Livro L, Comprar C 
  WHERE L.isbn=c.isbn AND
-		C.quantidade=(SELECT MAX(quantidade)
-					FROM Comprar)
+		C.quantidade=(SELECT MAX(subQuery.soma_quantidade) -- Executa 1 vez
+					FROM (SELECT L.isbn, SUM(c.quantidade) AS soma_quantidade
+					FROM Livro L, Comprar C
+					Where L.isbn=C.isbn
+					Group BY L.isbn)subQuery)
+
 
 
 --Qual o livro mais encomendado por cada um dos livreiros?
