@@ -1,1 +1,56 @@
+--Ficha7--- Exer1
+--Crie stored procedures para efetuar cada uma das seguintes tarefas.
+--(Nota: se possível reutilize os stored procedures criados.)
+
+
+USE Biblioteca
+GO
+
+--(a) Dado o código de um livro e o valor do seu estado (requisitado – ‘1’; não
+--requisitado – ‘0’) atualize o valor do estado desse livro.
+
+CREATE PROCEDURE setEstado @cod_livro INTEGER, @estado BIT
+AS
+	UPDATE Livro
+	SET Estado= @estado
+	WHERE Numero_Livro=@cod_livro
+
+
+--Exemplo para testar o Stored Producer
+
+EXECUTE setEstado 36,1 
+
+--Dado o código de um livro verifique se este se encontra requisitado ou não
+
+CREATE PROCEDURE getEstado @cod_livro Integer 
+AS	
+	DECLARE @estado BIT
+	SELECT @estado =estado
+	FROM Livro
+	WHERE Numero_Livro=@cod_livro
+	return @estado
+
+--Exemplo para testar o Stored Producer
+
+DECLARE @estado BIT
+EXECUTE @estado=getEstado 34
+print 'O valor do estado é '+ cast(@estado as VARCHAR)
+
+--C Dado o número de um aluno verifique se é possível requisitar um livro,
+--sabendo que tal só se verifica caso o aluno tenha requisitado menos de
+--garantia/5 livros
+
+CREATE PROCEDURE verificaRequisicao @numero_aluno INTEGER
+AS
+	if(SELECT COUNT(Numero_Livro)
+	FROM Emprestimo 
+	WHERE Numero_mecanografico =@numero_aluno AND
+	Data_Entrega is NULL
+	)<
+	(SELECT Garantia /5)
+	from ALUNO
+	WHERE numero_mecanografico =@numero_aluno)
+	RETURN 1
+	ELSE
+	RETURN 0 
 
