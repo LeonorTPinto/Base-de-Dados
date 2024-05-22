@@ -40,6 +40,7 @@ print 'O valor do estado é '+ cast(@estado as VARCHAR)
 --sabendo que tal só se verifica caso o aluno tenha requisitado menos de
 --garantia/5 livros
 
+
 CREATE PROCEDURE verificaRequisicao @numero_aluno INTEGER
 AS
 	if(SELECT COUNT(Numero_Livro)
@@ -47,8 +48,8 @@ AS
 	WHERE Numero_mecanografico =@numero_aluno AND
 	Data_Entrega is NULL
 	)<
-	(SELECT Garantia /5)
-	from ALUNO
+	(SELECT Garantia /5
+	FROM ALUNO
 	WHERE numero_mecanografico =@numero_aluno)
 	RETURN 1
 	ELSE
