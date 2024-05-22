@@ -40,7 +40,6 @@ print 'O valor do estado é '+ cast(@estado as VARCHAR)
 --sabendo que tal só se verifica caso o aluno tenha requisitado menos de
 --garantia/5 livros
 
-
 CREATE PROCEDURE verificaRequisicao @numero_aluno INTEGER
 AS
 	if(SELECT COUNT(Numero_Livro)
@@ -54,21 +53,81 @@ AS
 	RETURN 1
 	ELSE
 	RETURN 0 
-CREATE PROCEDURE adicionarrequisicao @numero_aluno INTEGER, @numero_livro INTEGER
+
+--Tendo em consideração os pressupostos das alíneas (a), (b) e (c), insira uma
+--requisição
+
+CREATE PROCEDURE adicionarrequisicao @numero_aluno INTEGER, @cod_livro INTEGER
 AS
 	DECLARE @estadoLivro BIT ,@podeRequesitar BIT
-	EXECUTE @estadoLivro =getEstado @numero_livro --alinea B
+	EXECUTE @estadoLivro =getEstado @cod_livro --alinea B
 	EXECUTE @podeRequesitar = verificaRequisicao @numero_aluno -- alinea c
 	IF(@estadoLivro =0) AND (@podeRequesitar =1)
 		Begin 
 			INSERT INTO Emprestimo (Numero_mecanografico, Numero_Livro, Data_Requesicao)
-			VALUES (@numero_aluno, @numero_livro, GETDATE ())
+			VALUES (@numero_aluno, @cod_livro, GETDATE ())
 
-			EXECUTE setEstado @numero_livro, 1 --esta requisitado
+			EXECUTE setEstado @cod_livro, 1 --esta requisitado   usamos a alinea A
 			return 1 -- ok
 			end
 			else
 			return -1 -- erro
 
+SELECT * FROM Aluno
+SELECT * FROM Livro
+SELECT * FROM Emprestimo
+
+-- exemplo para testar 
+ DECLARE  @estado INTEGER 
+ EXECUTE @estado = adicionarrequisicao 10000,1
+ PRINT @estado
 
 
+--Dados o número do aluno, o código do livro e a data de requisição, entregue
+--uma requisição.
+
+
+CREATE PROCEDURE  entreguaRequisicao @numero_aluno BIT, @cod_livro BIT, @data_requisicao smalldatetime
+AS
+	
+	IF EXISTS( Select *
+	FROM Emprestimo
+	WHERE Numero_mecanografico= @numero_aluno AND
+			Numero_Livro=@cod_livro AND
+			Data_Requesicao= @data_requisicao
+			AND
+			Data_Entrega IS NULL )
+	BEGIN 
+			UPDATE Emprestimo
+			SET Data_Entrega= GETDATE()
+			WHERE Numero_mecanografico= @numero_aluno AND
+				Numero_Livro=@cod_livro AND
+				Data_Requesicao= @data_requisicao 
+
+	EXECUTE setEstado @cod_livro, 0 
+	RETURN 1
+	END
+	ELSE 
+	RETURN -1
+
+
+-- exemplo para testar 
+ DECLARE  @estado INTEGER 
+ EXECUTE @estado = entreguaRequisicao 10000,1, '2024-05-22 10:01:00'
+ PRINT @estado
+
+
+--Dado o código de um livro verifique se este se encontra realmente requisitado.
+
+CREATE PROCEDURE getEstadoReal @cod_Livro INTEGER
+AS 
+	IF EXISTS (SELECT Numero_Livro
+				FROM  Emprestimo
+				WHERE Numero_Livro= @cod_Livro AND Data_Entrega is NULL)
+				return 1 --requisitado
+				else
+				return 0 --não requisitado
+
+
+--Dado o código de um livro, caso haja inconsistência no sistema relativamente
+--ao valor do seu estado, corrija esse estado.
