@@ -54,4 +54,21 @@ AS
 	RETURN 1
 	ELSE
 	RETURN 0 
+CREATE PROCEDURE adicionarrequisicao @numero_aluno INTEGER, @numero_livro INTEGER
+AS
+	DECLARE @estadoLivro BIT ,@podeRequesitar BIT
+	EXECUTE @estadoLivro =getEstado @numero_livro --alinea B
+	EXECUTE @podeRequesitar = verificaRequisicao @numero_aluno -- alinea c
+	IF(@estadoLivro =0) AND (@podeRequesitar =1)
+		Begin 
+			INSERT INTO Emprestimo (Numero_mecanografico, Numero_Livro, Data_Requesicao)
+			VALUES (@numero_aluno, @numero_livro, GETDATE ())
+
+			EXECUTE setEstado @numero_livro, 1 --esta requisitado
+			return 1 -- ok
+			end
+			else
+			return -1 -- erro
+
+
 
