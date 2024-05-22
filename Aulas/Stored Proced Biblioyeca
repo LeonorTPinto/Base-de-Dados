@@ -131,3 +131,9 @@ AS
 
 --Dado o código de um livro, caso haja inconsistência no sistema relativamente
 --ao valor do seu estado, corrija esse estado.
+
+CREATE PROCEDURE corrigeestado @cod_livro INTEGER 
+AS
+	DECLARE @estadoLivro BIT
+	EXECUTE @estadoLivro = getEstadoReal @cod_livro
+	EXECUTE setEstado @cod_livro, @estadoLivro
