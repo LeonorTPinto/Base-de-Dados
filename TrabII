@@ -34,7 +34,7 @@ FROM Viver V, Pessoas P, Formadores F, Paises Pa
 WHERE V.CC=P.CC AND
 	  F.CC_Formadores=P.CC AND
 	  V.ID_Paises=Pa.ID_Paises AND
-	  Pa.Criador= 1;
+	  Pa.Criador= 'sim';
 		
 
 --2.4. Que formandos participaram em mais formações nos últimos 2 anos? [nome, Total Formações] 
@@ -55,14 +55,18 @@ ORDER BY
 
 
 -- Que manuais nunca foram vendidos? [título, editora (nome)]. Apresente-os ordenados pela editora e pelo título. 
+SELECT 
+    ME.Titulo, 
+    E.Nome_Editoras
+FROM 
+    Editoras E, 
+    ManuaisEscolares ME, 
+    Produzir P
+WHERE 
+    P.ISBN = ME.ISBN 
+    AND P.ID_Editoras = E.ID_Editoras 
+    AND ME.ISBN NOT IN (SELECT V.ISBN FROM Vender V)
+ORDER BY 
+    E.Nome_Editoras, 
+    ME.Titulo;
 
-SELECT ME.Titulo, E.Nome_Editoras
-
-FROM Editoras E, ManuaisEscolares ME, Vender V
-WHERE V.ID_Editoras=E.ID_Editoras AND
-		V.ISBN=ME.ISBN AND
-		ME.ISBN NOT IN (SELECT ISBN FROM Vender)
-
-ORDER BY
-	E.Nome_Editoras,
-	ME.Titulo
