@@ -1,0 +1,76 @@
+USE master
+GO
+CREATE DATABASE bd_banco
+GO
+USE bd_banco
+GO
+CREATE TABLE CodigoPostal(
+cod_postal CHAR(8) NOT NULL,
+localidade VARCHAR(30) NOT NULL,
+PRIMARY KEY(cod_postal)
+)
+CREATE TABLE Agencias(
+cod_agencia INTEGER NOT NULL,
+nome VARCHAR(50) NOT NULL,
+morada VARCHAR(50) NOT NULL,
+cod_postal CHAR(8) NOT NULL,
+telefone CHAR(9) NOT NULL,
+fax CHAR(9) NOT NULL,
+PRIMARY KEY(cod_agencia),
+FOREIGN KEY(cod_postal) REFERENCES CodigoPostal(cod_postal)
+)
+CREATE TABLE Clientes(
+cod_cliente INTEGER NOT NULL,
+nome VARCHAR(50) NOT NULL,
+morada VARCHAR(50) NOT NULL,
+cod_postal CHAR(8) NOT NULL,
+-- cc -> cartao cidadao
+cc_numero CHAR(12) NOT NULL,
+cc_data_nascimento DATE NOT NULL,
+cc_data_validade DATE NOT NULL,
+num_conta CHAR(13) NOT NULL,
+telemovel CHAR(9) NOT NULL,
+telefone CHAR(9),
+PRIMARY KEY(cod_cliente),
+FOREIGN KEY(cod_postal) REFERENCES CodigoPostal(cod_postal)
+)
+CREATE TABLE Contas(
+cod_conta INTEGER NOT NULL,
+cod_agencia INTEGER NOT NULL,
+data_abertura DATE NOT NULL,
+saldo MONEY NOT NULL,
+PRIMARY KEY(cod_conta),
+FOREIGN KEY(cod_agencia) REFERENCES Agencias(cod_agencia)
+)
+CREATE TABLE Contas_Clientes(
+cod_conta INTEGER NOT NULL,
+cod_cliente INTEGER NOT NULL,
+PRIMARY KEY(cod_conta, cod_cliente),
+FOREIGN KEY(cod_conta) REFERENCES Contas(cod_conta),
+FOREIGN KEY(cod_cliente) REFERENCES Clientes(cod_cliente)
+)
+
+
+
+------A)
+
+CREATE PROCEDURE levantamento @conta_origem INTEGER,
+								@valor MONEY
+
+AS 
+	SET IMPLITICIT TRANSACTIONS OFF
+	SET  TRANSACTION ISOLATION LEVEL SERIALIZABLE
+	BEGIN TRANSACTION
+	DECLARE @saldo MONEY
+	SELECT @saldo=saldo
+	FROM contas
+	WHERE cod_conta= @cod_conta_origem
+	IF(@@ERROR <> OR @@ROWCOUNT=0)
+	BEGIN
+		IF(@@TRANCOUNT=1)
+			ROLLBACK TRANSACTION 
+			ELSE
+			COUNT TRANSACTION
+			GO TO ERRO_SELECT
+
+			END
