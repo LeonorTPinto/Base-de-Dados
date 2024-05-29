@@ -137,3 +137,43 @@ AS
 	DECLARE @estadoLivro BIT
 	EXECUTE @estadoLivro = getEstadoReal @cod_livro
 	EXECUTE setEstado @cod_livro, @estadoLivro
+
+
+--Ficha7... Exer 1 Biblioteca
+
+USE Biblioteca
+GO
+
+
+--J
+CREATE TRIGGER atualizaEstado_1
+ON Emprestimo
+AFTER INSERT
+AS
+	DECLARE @cod_livro INTEGER
+	SELECT @cod_livro= Numero_Livro
+	FROM inserted
+	Execute setEstado @cod_livro,1
+
+	--Exemplo teste trigger
+
+INSERT INTO Emprestimo (Numero_mecanografico,Numero_Livro, Data_Requesicao)
+VALUES (1000,1,GETDATE())
+
+CREATE TRIGGER atualizarEstado_0
+ON Emprestimo
+AFTER UPDATE
+AS 
+		DECLARE @cod_livro INTEGER
+		SELECT @cod_livro=Numero_Livro 
+		FROM inserted 
+		----- DELETE
+		IF UPDATE (data_Entrega)
+			EXECUTE setEstado @cod_livro, 0
+
+-- exemplo para testar o trigger
+
+UPDATE Emprestimo
+SET Data_Entrega= GETDATE()
+WHERE Numero_mecanografico=1000 AND Numero_Livro=1 AND
+Data_Entrega  is null
